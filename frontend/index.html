@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chordo — Compagnon du guitariste</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-logo" aria-hidden="true">🎸</span>
+      <div>
+        <h1>Chordo</h1>
+        <p class="tagline">Le compagnon du guitariste</p>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="analyzer" role="tab">Analyseur</button>
+      <button class="tab" data-tab="chords" role="tab">Accords</button>
+      <button class="tab" data-tab="tuner" role="tab">Accordeur</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ============ ANALYSEUR ============ -->
+    <section id="analyzer" class="panel active">
+      <div class="panel-head">
+        <h2>Analyser un audio</h2>
+        <p>Dépose un extrait (mp3, wav…) : Chordo détecte les notes dominantes et propose des accords.</p>
+      </div>
+
+      <div id="dropzone" class="dropzone" tabindex="0">
+        <div class="dz-icon">🎵</div>
+        <p class="dz-main">Glisse un fichier audio ici</p>
+        <p class="dz-sub">ou clique pour parcourir · max 25 Mo</p>
+        <input type="file" id="fileInput" accept="audio/*" hidden />
+      </div>
+
+      <div id="fileMeta" class="file-meta hidden"></div>
+
+      <div id="progress" class="progress hidden">
+        <div class="spinner"></div>
+        <span>Analyse en cours…</span>
+      </div>
+
+      <div id="analyzeError" class="error-box hidden"></div>
+
+      <div id="results" class="results hidden">
+        <div class="result-card">
+          <h3>Accords probables</h3>
+          <div id="chordResult" class="chips"></div>
+        </div>
+        <div class="result-card">
+          <h3>Notes dominantes</h3>
+          <div id="notesResult" class="bars"></div>
+        </div>
+        <div class="result-card meta-card">
+          <h3>Infos</h3>
+          <ul id="metaResult" class="meta-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ACCORDS ============ -->
+    <section id="chords" class="panel">
+      <div class="panel-head">
+        <h2>Bibliothèque d'accords</h2>
+        <p>Diagrammes de manche pour les accords essentiels. Clique sur un accord pour l'entendre.</p>
+      </div>
+      <div id="chordGrid" class="chord-grid"></div>
+    </section>
+
+    <!-- ============ ACCORDEUR ============ -->
+    <section id="tuner" class="panel">
+      <div class="panel-head">
+        <h2>Accordeur de référence</h2>
+        <p>Joue les cordes à vide (accordage standard) pour accorder à l'oreille.</p>
+      </div>
+      <div id="stringRow" class="string-row"></div>
+
+      <div class="metronome">
+        <h3>Métronome</h3>
+        <div class="metro-controls">
+          <button id="metroToggle" class="btn-primary">Démarrer</button>
+          <div class="tempo">
+            <input type="range" id="tempo" min="40" max="220" value="100" />
+            <span><span id="tempoVal">100</span> BPM</span>
+          </div>
+        </div>
+        <div id="beatDots" class="beat-dots"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Chordo · fait avec 🎸 pour les guitaristes</span>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
