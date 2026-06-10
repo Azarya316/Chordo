@@ -10,17 +10,21 @@ Compagnon web pour guitaristes : analyse d'audio, bibliothèque d'accords et acc
 
 ## Architecture
 
+Le projet est découplé : **backend** (API seule) et **frontend** (app Vite), chacun autonome dans son dossier.
+
 ```
-backend/
-  app.js                  # app Express (API + service des fichiers statiques)
+backend/                  # API Express (aucun rendu de page)
+  app.js                  # app Express (API + CORS)
   server.js               # point d'entrée
   routes/songRoutes.js    # POST /api/upload, GET /api/chords
   controllers/            # logique des endpoints
   services/audioAnalyzer.js  # pipeline ffmpeg → pitchfinder → tonal
   data/chordLibrary.js    # données d'accords et d'accordage
   test/analyzer.test.js   # tests de l'analyseur
-frontend/
-  index.html, styles.css, app.js   # interface (sans bundler)
+frontend/                 # app Vite (vanilla JS)
+  index.html
+  vite.config.js          # proxy /api → backend en dev
+  src/main.js, src/style.css
 ```
 
 ## Prérequis
@@ -30,13 +34,24 @@ frontend/
 
 ## Démarrage
 
+Deux terminaux : l'API et le frontend.
+
 ```bash
+# Terminal 1 — backend (API sur http://localhost:5000)
 cd backend
 npm install
 npm start        # ou: npm run dev (nodemon)
+
+# Terminal 2 — frontend (http://localhost:5173)
+cd frontend
+npm install
+npm run dev
 ```
 
-Puis ouvre http://localhost:5000
+Puis ouvre http://localhost:5173 (Vite proxifie automatiquement `/api` vers le backend).
+
+En production, build le frontend (`npm run build` → `dist/`) et définis l'URL de l'API
+via `VITE_API_URL` (voir `frontend/.env.example`).
 
 ## API
 

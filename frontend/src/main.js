@@ -1,6 +1,11 @@
-/* global document, window, fetch, FileReader */
+import './style.css';
+
 (() => {
   'use strict';
+
+  // Base de l'API. En dev, vide => le proxy Vite redirige /api vers le backend.
+  // En prod, définir VITE_API_URL (ex: https://api.chordo.app).
+  const API = import.meta.env.VITE_API_URL || '';
 
   // ---------- Onglets ----------
   const tabs = document.querySelectorAll('.tab');
@@ -93,7 +98,7 @@
     form.append('song', file);
 
     try {
-      const res = await fetch('/api/upload', { method: 'POST', body: form });
+      const res = await fetch(`${API}/api/upload`, { method: 'POST', body: form });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Erreur serveur');
       renderResults(data.analysis);
@@ -189,7 +194,7 @@
 
   async function loadChords() {
     try {
-      const res = await fetch('/api/chords');
+      const res = await fetch(`${API}/api/chords`);
       const data = await res.json();
       renderChordGrid(data.chords);
       renderTuner(data.tuning);

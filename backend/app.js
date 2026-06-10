@@ -1,21 +1,17 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 const dotenv = require('dotenv');
 const songRoutes = require('./routes/songRoutes');
 
 dotenv.config();
 const app = express();
 
+// API uniquement : le frontend (Vite) est servi séparément.
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api', songRoutes);
-
-// Sert le frontend statique.
-const frontendDir = path.join(__dirname, '..', 'frontend');
-app.use(express.static(frontendDir));
 
 // Endpoint de santé.
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
